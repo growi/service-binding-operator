@@ -18,11 +18,15 @@ spec:
     spec:
       containers:
         - name: app
-          image: quay.io/service-binding/spring-petclinic:latest
+          image: growi83/spring-petclinic-oauth2:latest
           imagePullPolicy: Always
           env:
           - name: SPRING_PROFILES_ACTIVE
             value: postgres
+          - name: MY_HOST_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.hostIP
           ports:
           - name: http
             containerPort: 8080

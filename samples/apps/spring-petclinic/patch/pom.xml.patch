@@ -1,31 +1,77 @@
+From acc4073f685c36e0e5d90b6c5247aa05c967fd9b Mon Sep 17 00:00:00 2001
+From: growi <github@ankertaugasse.de>
+Date: Sun, 6 Mar 2022 03:06:08 +0100
+Subject: [PATCH] Add cloud bindings and oauth2 config
+
+---
+ pom.xml                                         | 17 +++++++++++++++++
+ .../system/WebSecurityConfiguration.java        | 15 +++++++++++++++
+ 2 files changed, 32 insertions(+)
+ create mode 100644 src/main/java/org/springframework/samples/petclinic/system/WebSecurityConfiguration.java
+
 diff --git a/pom.xml b/pom.xml
-index fc907e4..cfeb8ff 100644
+index fc907e4..4d7298f 100644
 --- a/pom.xml
 +++ b/pom.xml
-@@ -58,6 +58,11 @@
+@@ -38,6 +38,10 @@
        <groupId>org.springframework.boot</groupId>
-       <artifactId>spring-boot-starter-thymeleaf</artifactId>
+       <artifactId>spring-boot-starter-actuator</artifactId>
      </dependency>
 +    <dependency>
-+      <groupId>org.springframework.cloud</groupId>
-+      <artifactId>spring-cloud-bindings</artifactId>
-+      <version>1.8.0</version>
++      <groupId>org.springframework.boot</groupId>
++      <artifactId>spring-boot-starter-oauth2-client</artifactId>
 +    </dependency>
      <dependency>
        <groupId>org.springframework.boot</groupId>
-       <artifactId>spring-boot-starter-test</artifactId>
-@@ -261,6 +266,14 @@
+       <artifactId>spring-boot-starter-cache</artifactId>
+@@ -57,6 +61,11 @@
+     <dependency>
+       <groupId>org.springframework.boot</groupId>
+       <artifactId>spring-boot-starter-thymeleaf</artifactId>
++    </dependency>
++      <dependency>
++      <groupId>org.springframework.cloud</groupId>
++      <artifactId>spring-cloud-bindings</artifactId>
++      <version>1.8.0</version>
+     </dependency>
+     <dependency>
+       <groupId>org.springframework.boot</groupId>
+@@ -261,6 +270,14 @@
          <enabled>false</enabled>
        </snapshots>
      </repository>
 +    <repository>
-+      <snapshots>
-+        <enabled>true</enabled>
-+      </snapshots>
-+      <id>spring-release</id>
-+      <name>Spring Release</name>
-+      <url>https://repo.spring.io/release</url>
-+    </repository>
++        <snapshots>
++          <enabled>true</enabled>
++        </snapshots>
++        <id>spring-release</id>
++        <name>Spring Release</name>
++        <url>https://repo.spring.io/release</url>
++      </repository>
    </repositories>
- 
+
    <pluginRepositories>
+diff --git a/src/main/java/org/springframework/samples/petclinic/system/WebSecurityConfiguration.java b/src/main/java/org/springframework/samples/petclinic/system/WebSecurityConfiguration.java
+new file mode 100644
+index 0000000..53ae590
+--- /dev/null
++++ b/src/main/java/org/springframework/samples/petclinic/system/WebSecurityConfiguration.java
+@@ -0,0 +1,15 @@
++package org.springframework.samples.petclinic.system;
++
++import org.springframework.security.config.annotation.web.builders.HttpSecurity;
++import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
++
++public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
++
++	@Override
++	protected void configure(HttpSecurity http) throws Exception {
++		http.authorizeRequests().antMatchers("/", "/login**", "/error").permitAll().anyRequest().authenticated().and()
++				.oauth2Login();
++
++	}
++
++}
+--
+2.25.1
+
