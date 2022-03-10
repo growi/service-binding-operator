@@ -2227,10 +2227,6 @@ spec:
           ports:
             - name: keycloak
               containerPort: 8080
-      hostAliases:
-      - ip: "10.100.10.1"
-        hostnames:
-        - "keycloak.local"
       volumes:
         - configMap:
             name: test-realm-config
