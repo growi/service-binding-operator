@@ -3,6 +3,7 @@ FROM --platform=amd64 maven:3.8.4-openjdk-11 as builder
 
 ARG PETCLINIC_REPO=https://github.com/spring-projects/spring-petclinic.git
 ARG PETCLINIC_COMMIT=a7439c74ea718c4f59fe6c7c643c4afe59d7e718
+ARG PETCLINIC_FEATURE=base
 ENV PETCLINIC_DIR=/petclinic
 
 RUN git clone "${PETCLINIC_REPO}" ${PETCLINIC_DIR} && \
@@ -10,7 +11,15 @@ RUN git clone "${PETCLINIC_REPO}" ${PETCLINIC_DIR} && \
 
 COPY patch /patch
 
-RUN for i in /patch/*.patch; do echo " -> Applying $i"; git -C ${PETCLINIC_DIR} apply --verbose $i; done
+RUN for feature in $(echo ${PETCLINIC_FEATURE} | tr "," " "); \
+    do \
+        echo "Adding feature: ${feature}"; \
+        for i in /patch/$feature/*.patch; \
+        do \
+            echo " -> Applying $i"; \
+            git -C ${PETCLINIC_DIR} apply --verbose $i; \
+        done; \
+    done
 
 WORKDIR ${PETCLINIC_DIR}
 

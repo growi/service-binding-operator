@@ -1,0 +1,20 @@
+diff --git a/pom.xml b/pom.xml
+index fc907e4..4d7298f 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -261,6 +270,14 @@
+         <enabled>false</enabled>
+       </snapshots>
+     </repository>
++    <repository>
++        <snapshots>
++          <enabled>true</enabled>
++        </snapshots>
++        <id>spring-release</id>
++        <name>Spring Release</name>
++        <url>https://repo.spring.io/release</url>
++      </repository>
+   </repositories>
+
+   <pluginRepositories>
+   

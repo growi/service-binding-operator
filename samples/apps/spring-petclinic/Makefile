@@ -1,10 +1,16 @@
-PETCLINIC_REPO ?= quay.io/service-binding/spring-petclinic
-PETCLINIC_APP_IMAGE ?= $(PETCLINIC_REPO):latest
+#include petclinic-app/build/Makefile
+
+export PETCLINIC_REPO ?= quay.io/service-binding
+export PETCLINIC_APP_IMAGE_NAME ?= spring-petclinic
+export PETCLINIC_APP_IMAGE ?= $(PETCLINIC_REPO)/$(PETCLINIC_APP_IMAGE_NAME):latest
+
+export PETCLINIC_OAUTH2_REPO ?= $(PETCLINIC_REPO)
+export PETCLINIC_OAUTH2_APP_IMAGE_NAME = $(PETCLINIC_APP_IMAGE_NAME)-oauth2
+export PETCLINIC_OAUTH2_APP_IMAGE ?= $(PETCLINIC_OAUTH2_REPO)/$(PETCLINIC_OAUTH2_APP_IMAGE_NAME):latest
+
+export MULTIARCH_PLATFORMS ?= linux/amd64,linux/arm64,linux/s390x,linux/ppc64le
+
 PETCLINIC_ENV_PROFILE ?= postgres
-
-NAMESPACE ?= my-petclinic
-
-MULTIARCH_PLATFORMS ?= linux/amd64,linux/arm64,linux/s390x,linux/ppc64le
 
 # one of "openshift", "minikube"
 KUBERNETES_RUNTIME ?= minikube
@@ -31,24 +37,24 @@ deploy-pgcluster:
 	kubectl apply -f pgcluster-sample/pgcluster-deployment.yaml -n $(NAMESPACE)
 
 .PHONY: deploy-mysqlcluster
-deploy-pgcluster:
+deploy-mysqlcluster:
 	kubectl apply -f mysqlcluster-sample/mysqlcluster-deployment.yaml -n $(NAMESPACE)
 
 .PHONY: build-app
 build-app:
-	docker build -f petclinic-app/build/Dockerfile.app -t $(PETCLINIC_APP_IMAGE) .
+	$(MAKE) -C petclinic-app/build/ build-app
 
 .PHONY: push-app
 push-app:
-	docker push $(PETCLINIC_APP_IMAGE)
+	$(MAKE) -C petclinic-app/build/ push-app
 
 .PHONY: build-app-multiarch
 build-app-multiarch:
-	docker buildx build --platform "$(MULTIARCH_PLATFORMS)" -f petclinic-app/build/Dockerfile.app -t $(PETCLINIC_APP_IMAGE) .
+	$(MAKE) -C petclinic-app/build/ build-app-multiarch
 
 .PHONY: push-app-multiarch
 push-app-multiarch:
-	docker buildx build --push --platform "$(MULTIARCH_PLATFORMS)" -f petclinic-app/build/Dockerfile.app -t $(PETCLINIC_APP_IMAGE) .
+	$(MAKE) -C petclinic-app/build/ push-app-multiarch
 
 .PHONY: deploy-app
 deploy-app:
