@@ -74,6 +74,11 @@ bind-postgresql:
 bind-pgcluster:
 	kubectl apply -f pgcluster-sample/petclinic-pgcluster-binding.yaml -n $(NAMESPACE)
 
+.PHONY: bind-mysqlcluster
+bind-mysqlcluster:
+	kubectl apply -f mysqlcluster-sample/petclinic-mysqlcluster-binding.yaml -n $(NAMESPACE)
+
+
 .PHONY: unbind-keycloak
 unbind-keycloak:
 	kubectl delete -f keycloak-sample/petclinic-keycloak-binding.yaml -n $(NAMESPACE)
@@ -85,3 +90,7 @@ unbind-postgresql:
 .PHONY: unbind-pgcluster
 unbind-pgcluster:
 	kubectl delete -f pgcluster-sample/petclinic-pgcluster-binding.yaml -n $(NAMESPACE)
+
+.PHONY: unbind-mysqlcluster
+unbind-mysqlcluster:
+	kubectl delete -f mysqlcluster-sample/petclinic-mysqlcluster-binding.yaml -n $(NAMESPACE)
