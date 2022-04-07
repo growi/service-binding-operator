@@ -1,3 +1,13 @@
+# tag:::app-config[]
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spring-petclinic-app
+data:
+  spring_profile: "mysql"
+  additional_features: ""
+# end::app-config[]
+---
 apiVersion: pxc.percona.com/v1-10-0
 kind: PerconaXtraDBCluster
 metadata:
