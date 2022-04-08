@@ -33,24 +33,17 @@
     </repositories>
 
     <dependencies>
-
+        <dependency>
+            <groupId>org.springframework.samples</groupId>
+            <artifactId>spring-petclinic</artifactId>
+            <version>2.6.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-client</artifactId>
             <scope>compile</scope>
         </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
     </dependencies>
 
     <build>
@@ -82,7 +75,6 @@
                     </descriptorRefs>
                     <finalName>oauth2-lib</finalName>
                     <appendAssemblyId>false</appendAssemblyId>
-                    
                 </configuration>
 
                 <executions>
