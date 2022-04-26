@@ -35,7 +35,6 @@ RUN echo -e  \
     "#!/bin/sh\n" \
     "for feature in \$PETCLINIC_FEATURES; do ADDITIONAL_JARS+=\",file:/tmp/\${feature}-lib.jar\"; done\n" \
     "java -cp /tmp/petclinic.jar" \
-    "-Dloader.debug=true" \
     "-Dloader.path=file:/tmp/cloudbindings-lib.jar\$ADDITIONAL_JARS" \
     "-Dorg.springframework.cloud.bindings.boot.enable=true" \
     "-Dloader.main=org.springframework.samples.petclinic.PetClinicApplication" \
