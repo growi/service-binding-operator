@@ -2172,6 +2172,13 @@ metadata:
   name: test-realm-config
 # end::keycloak-config[]
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spring-petclinic
+data:
+  petclinic_features: oauth2
+---
 # tag::client-secret[]
 apiVersion: v1
 kind: Secret
