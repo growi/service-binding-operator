@@ -39,6 +39,7 @@ RUN echo -e  \
     "-Dorg.springframework.cloud.bindings.boot.enable=true" \
     "-Dloader.main=org.springframework.samples.petclinic.PetClinicApplication" \
     "org.springframework.boot.loader.PropertiesLauncher" \
+    "--spring.config.location=jar:file:/tmp/petclinic.jar!/BOOT-INF/classes/application.properties" \
     > run.sh; chmod 777 run.sh;
 
 EXPOSE 8080
